@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Avatar, Box, Flex, Text, Wrap, WrapItem } from "@chakra-ui/react";
 import Chip from "./Chip";
 
 const TaskCard = () => {
@@ -8,7 +8,8 @@ const TaskCard = () => {
       borderRadius="8px"
       bg="neutral.400"
       width="100%"
-      h={208}
+      minHeight={208}
+      height="auto"
       p={4}
     >
       <Flex justifyContent="space-between" pb={4}>
@@ -21,9 +22,16 @@ const TaskCard = () => {
         </Text>
         <Chip icon={<Box />} label="Tomorrow" color="neutral.light" />
       </Flex>
-      <Flex justifyContent="flex-start" wrap="wrap" mt={4} gap={2}>
-        <Chip icon={<Box />} label="IOS App" color="secondary" />
-        <Chip icon={<Box />} label="Android" color="tertiary" />
+      <Wrap mt={4} spacing={"8px"} mb={4}>
+        <WrapItem>
+          <Chip label="IOS App" color="secondary" />
+        </WrapItem>
+        <WrapItem>
+          <Chip label="Android" color="tertiary" />
+        </WrapItem>
+      </Wrap>
+      <Flex justifyContent="space-between" position="relative" mt="auto">
+        <Avatar name="Ravn" src="url/to/image" size="sm" />
       </Flex>
     </Flex>
   );

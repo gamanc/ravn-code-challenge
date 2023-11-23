@@ -23,7 +23,12 @@ const Chip = ({ label, icon, color }: Props) => {
           {icon}
         </Box>
       )}
-      <Text fontWeight={500} color={`${color}.400`} textTransform="uppercase">
+      <Text
+        fontWeight={500}
+        fontSize="sm"
+        color={`${color}.400`}
+        textTransform="uppercase"
+      >
         {label}
       </Text>
     </Box>
