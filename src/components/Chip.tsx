@@ -10,23 +10,20 @@ interface Props {
 const Chip = ({ label, icon, color }: Props) => {
   return (
     <Box
-      w="auto"
-      bg={`${color}.100`}
       py={1}
       px={4}
+      w="auto"
       display="flex"
+      bg={`${color}.100`}
+      color={`${color}.400`}
       alignItems="center"
       borderRadius="4px"
     >
-      {icon && (
-        <Box bg={`${color}.400`} width="20px" height="20px" mr="2">
-          {icon}
-        </Box>
-      )}
+      {icon}
       <Text
-        fontWeight={500}
+        ml={icon ? 2 : 0}
+        fontWeight={600}
         fontSize="sm"
-        color={`${color}.400`}
         textTransform="uppercase"
       >
         {label}
