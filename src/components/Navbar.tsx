@@ -1,4 +1,5 @@
-import { Box, Flex, HStack, Spacer, Text } from "@chakra-ui/react";
+import { BellIcon, SearchIcon } from "@chakra-ui/icons";
+import { Avatar, Flex, HStack, Spacer, Text } from "@chakra-ui/react";
 
 const Navbar = () => {
   return (
@@ -10,12 +11,12 @@ const Navbar = () => {
       borderRadius={16}
       color={"neutral.200"}
     >
-      <Box w={8} h={8} mr={8} bg={"neutral.300"} />
+      <SearchIcon mr={8} color="neutral.200" boxSize={5} />
       <Text>Search...</Text>
       <Spacer />
       <HStack spacing={8}>
-        <Box w={8} h={8} bg={"neutral.300"} />
-        <Box w={10} h={10} bg={"neutral.300"} />
+        <BellIcon color="neutral.200" boxSize={5} />
+        <Avatar name="Ravn" size="sm" />
       </HStack>
     </Flex>
   );
