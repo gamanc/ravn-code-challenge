@@ -7,7 +7,7 @@ const MainLayout = () => {
     <Container
       maxWidth={"7xl"}
       pt={10}
-      bg={"neutral.5"}
+      bg={"neutral.500"}
       color="white"
       maxHeight="100vh"
       overflowY="hidden"
