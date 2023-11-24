@@ -4,7 +4,7 @@ import { mode } from "@chakra-ui/theme-tools";
 
 export default extendTheme({
   colors: {
-    primary: { 100: "#3D3336", 200: "#EBA59E", 400: "#DA584B" },
+    primary: { 100: "#3D3336", 200: "#EBA59E", 300: "#eb7c71", 400: "#DA584B" },
     secondary: { 100: "#333D37", 400: "#70B252" },
     tertiary: { 100: "#403D36", 400: "#E5B454" },
     neutral: {

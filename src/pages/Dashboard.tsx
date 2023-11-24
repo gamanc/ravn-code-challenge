@@ -34,7 +34,7 @@ const Dashboard = () => {
   if (error) return <p>{error.message}</p>;
 
   return (
-    <Flex height="calc(100vh - 125px)" mt={6} gap={4} overflowX="auto">
+    <Flex height="calc(100vh - 200px)" mt={6} gap={4} overflowX="auto">
       {loading && (
         <Flex w="100%" justifyContent="center">
           <Spinner size="xl" color="primary.400" />
