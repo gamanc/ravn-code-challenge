@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Flex,
   IconButton,
   Menu,
@@ -10,17 +11,19 @@ import {
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
-import Chip from "./Chip";
+import Chip, { ChipColor } from "./Chip";
 import { DeleteIcon, EditIcon, TimeIcon } from "@chakra-ui/icons";
 import IconDots from "../assets/icons/IconDots";
 import { PointEstimate, Task } from "../gql/graphql";
 import { getPointEstimateValue } from "../constants/tasks";
+import { calculateDateDifference } from "../helpers/dates";
 
 interface Props {
   task: Partial<Task>;
 }
 
 const TaskCard = ({ task }: Props) => {
+  const dueDateObject = calculateDateDifference(task.dueDate);
   return (
     <Flex
       flexDirection="column"
@@ -63,13 +66,14 @@ const TaskCard = ({ task }: Props) => {
       </Flex>
       <Flex justifyContent="space-between">
         <Text fontSize="small" fontWeight={600} textTransform="lowercase">
-          {getPointEstimateValue(task.pointEstimate || PointEstimate.Zero)}{" "}
-          points
+          {`${getPointEstimateValue(
+            task.pointEstimate || PointEstimate.Zero
+          )} points`}
         </Text>
         <Chip
           icon={<TimeIcon boxSize={4} />}
-          label="Tomorrow"
-          color="neutral.light"
+          label={dueDateObject.label}
+          color={dueDateObject.color as ChipColor}
         />
       </Flex>
       <Wrap mt={4} spacing={"8px"} mb={4}>

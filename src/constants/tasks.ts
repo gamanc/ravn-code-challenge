@@ -23,7 +23,7 @@ const TASK_STATUS_HUMAN_NAME: StatusStringObject = {
 };
 
 export const getTaskStatusName = (status: TaskStatus) =>
-  TASK_STATUS_HUMAN_NAME[status];
+  TASK_STATUS_HUMAN_NAME[status] ?? status;
 
 // Point Estimate
 
@@ -40,4 +40,4 @@ const POINT_ESTIMATE_NUMERIC_VALUE: PointEstimateNumberObject = {
 };
 
 export const getPointEstimateValue = (pointEstimate: PointEstimate) =>
-  POINT_ESTIMATE_NUMERIC_VALUE[pointEstimate];
+  POINT_ESTIMATE_NUMERIC_VALUE[pointEstimate] ?? pointEstimate;
