@@ -1,10 +1,16 @@
 import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 
+export type ChipColor =
+  | "neutral"
+  | "neutral.light"
+  | "primary"
+  | "secondary"
+  | "tertiary";
 interface Props {
   label?: string;
   icon?: React.ReactNode;
-  color: "neutral" | "neutral.light" | "primary" | "secondary" | "tertiary";
+  color: ChipColor;
 }
 
 const Chip = ({ label, icon, color }: Props) => {
