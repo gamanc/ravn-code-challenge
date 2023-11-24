@@ -4,7 +4,7 @@ import TaskColumn from "../components/TaskColumn";
 import { useQuery } from "@apollo/client";
 import { useMemo } from "react";
 import { Status as TaskStatus, Task } from "../gql/graphql";
-import { TASKS_QUERY } from "../querys/taskQuerys";
+import { TASKS_QUERY } from "../queries/taskQuerys";
 import { COLUMNS_ORDER, getTaskStatusName } from "../constants/tasks";
 
 const Dashboard = () => {
