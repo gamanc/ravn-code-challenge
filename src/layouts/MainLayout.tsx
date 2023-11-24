@@ -6,7 +6,7 @@ import Sidebar from "../components/Sidebar";
 const MainLayout = () => {
   return (
     <Container
-      maxWidth={"7xl"}
+      maxWidth={"8xl"}
       py={6}
       bg={"neutral.500"}
       color="white"

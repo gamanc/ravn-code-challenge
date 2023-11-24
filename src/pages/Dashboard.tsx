@@ -1,12 +1,55 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Spinner } from "@chakra-ui/react";
 import TaskColumn from "../components/TaskColumn";
 
+import { useQuery } from "@apollo/client";
+import { useMemo } from "react";
+import { Status as TaskStatus, Task } from "../gql/graphql";
+import { TASKS_QUERY } from "../querys/taskQuerys";
+import { COLUMNS_ORDER, getTaskStatusName } from "../constants/tasks";
+
 const Dashboard = () => {
+  const { data, loading, error } = useQuery(TASKS_QUERY, {
+    variables: { input: {} },
+  });
+
+  const organizedTasksByStatus = useMemo((): Record<TaskStatus, Task[]> => {
+    if (!data?.tasks)
+      return {
+        BACKLOG: [],
+        CANCELLED: [],
+        DONE: [],
+        IN_PROGRESS: [],
+        TODO: [],
+      };
+    return data?.tasks.reduce((acc, task) => {
+      const { status } = task;
+      if (!acc[status]) {
+        acc[status] = [];
+      }
+      acc[status].push(task as Task);
+      return acc;
+    }, {} as Record<TaskStatus, Task[]>);
+  }, [data?.tasks]);
+
+  if (error) return <p>{error.message}</p>;
+
   return (
-    <Flex height="calc(100vh - 140px)" mt={6} gap={4}>
-      <TaskColumn title="Working (03)" tasks={[0, 1, 2, 3, 4, 5, 6]} />
-      <TaskColumn title="In progress (03)" tasks={[7, 8, 9]} />
-      <TaskColumn title="Completed (03)" tasks={[10, 11, 12, 13, 15]} />
+    <Flex height="calc(100vh - 125px)" mt={6} gap={4} overflowX="auto">
+      {loading && (
+        <Flex w="100%" justifyContent="center">
+          <Spinner size="xl" color="primary.400" />
+        </Flex>
+      )}
+      {COLUMNS_ORDER.map((status) => {
+        const columnTasks = organizedTasksByStatus[status] as Task[];
+        return (
+          <TaskColumn
+            key={status}
+            title={getTaskStatusName(status)}
+            tasks={columnTasks}
+          />
+        );
+      })}
     </Flex>
   );
 };

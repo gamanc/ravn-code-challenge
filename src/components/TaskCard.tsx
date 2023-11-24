@@ -13,8 +13,14 @@ import {
 import Chip from "./Chip";
 import { DeleteIcon, EditIcon, TimeIcon } from "@chakra-ui/icons";
 import IconDots from "../assets/icons/IconDots";
+import { PointEstimate, Task } from "../gql/graphql";
+import { getPointEstimateValue } from "../constants/tasks";
 
-const TaskCard = () => {
+interface Props {
+  task: Partial<Task>;
+}
+
+const TaskCard = ({ task }: Props) => {
   return (
     <Flex
       flexDirection="column"
@@ -26,7 +32,7 @@ const TaskCard = () => {
       p={4}
     >
       <Flex justifyContent="space-between" pb={4}>
-        <Text fontWeight={600}>Slack</Text>
+        <Text fontWeight={600}>{task.name}</Text>
         <Menu>
           <MenuButton
             as={IconButton}
@@ -56,8 +62,9 @@ const TaskCard = () => {
         </Menu>
       </Flex>
       <Flex justifyContent="space-between">
-        <Text fontSize="small" fontWeight={600}>
-          4 points
+        <Text fontSize="small" fontWeight={600} textTransform="lowercase">
+          {getPointEstimateValue(task.pointEstimate || PointEstimate.Zero)}{" "}
+          points
         </Text>
         <Chip
           icon={<TimeIcon boxSize={4} />}
@@ -66,15 +73,18 @@ const TaskCard = () => {
         />
       </Flex>
       <Wrap mt={4} spacing={"8px"} mb={4}>
-        <WrapItem>
-          <Chip label="IOS App" color="secondary" />
-        </WrapItem>
-        <WrapItem>
-          <Chip label="Android" color="tertiary" />
-        </WrapItem>
+        {task.tags?.map((tag) => (
+          <WrapItem key={tag}>
+            <Chip label={tag} color="secondary" />
+          </WrapItem>
+        ))}
       </Wrap>
       <Flex justifyContent="space-between" position="relative" mt="auto">
-        <Avatar name="Ravn" src="url/to/image" size="sm" />
+        <Avatar
+          name={task.assignee?.fullName}
+          src={task.assignee?.avatar || "/"}
+          size="sm"
+        />
       </Flex>
     </Flex>
   );
