@@ -24,7 +24,7 @@ const TASKS_QUERY = graphql(`
   }
 `);
 
-const ADD_TASK_MUTATION = graphql(`
+const CREATE_TASK_MUTATION = graphql(`
   mutation createTask($input: CreateTaskInput!) {
     createTask(input: $input) {
       id
@@ -48,4 +48,4 @@ const ADD_TASK_MUTATION = graphql(`
   }
 `);
 
-export { TASKS_QUERY, ADD_TASK_MUTATION };
+export { TASKS_QUERY, CREATE_TASK_MUTATION };

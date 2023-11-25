@@ -49,3 +49,8 @@ export const TASK_FORM_DEFAULT_VALUES = {
   pointEstimate: undefined,
   tags: [],
 };
+
+export type TaskTagOption = {
+  label: string;
+  value: string;
+};
