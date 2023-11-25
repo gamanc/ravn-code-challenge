@@ -8,6 +8,7 @@ import {
   MenuItem,
   MenuList,
   Text,
+  Tooltip,
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
@@ -35,7 +36,9 @@ const TaskCard = ({ task }: Props) => {
       p={4}
     >
       <Flex justifyContent="space-between" pb={4}>
-        <Text fontWeight={600}>{task.name}</Text>
+        <Text fontWeight={600}>
+          {task.name} - {task.position}
+        </Text>
         <Menu>
           <MenuButton
             as={IconButton}
@@ -84,11 +87,18 @@ const TaskCard = ({ task }: Props) => {
         ))}
       </Wrap>
       <Flex justifyContent="space-between" position="relative" mt="auto">
-        <Avatar
-          name={task.assignee?.fullName}
-          src={task.assignee?.avatar || "/"}
-          size="sm"
-        />
+        <Tooltip
+          label={task.assignee?.fullName}
+          openDelay={500}
+          bg="neutral.400"
+          color="white"
+        >
+          <Avatar
+            name={task.assignee?.fullName}
+            src={task.assignee?.avatar || "/"}
+            size="sm"
+          />
+        </Tooltip>
       </Flex>
     </Flex>
   );
