@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -51,7 +51,11 @@ const AddTaskDialog = () => {
     onClose();
   };
 
-  const { isValid } = methods.formState;
+  const { isValid, isSubmitSuccessful } = methods.formState;
+
+  useEffect(() => {
+    if (isSubmitSuccessful) methods.reset();
+  }, [isSubmitSuccessful]);
 
   const handleClose = () => {
     methods.reset();
