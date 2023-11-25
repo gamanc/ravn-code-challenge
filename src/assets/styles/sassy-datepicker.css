@@ -1,0 +1,36 @@
+.sdp,
+.stp {
+  background-color: var(--chakra-colors-gray-700);
+  --disabled-color: var(--chakra-colors-gray-400);
+  --outline: none;
+  color: #e1e1e1;
+}
+
+.sdp button,
+.stp button,
+.sassy--select__dropdown {
+  background-color: var(--chakra-colors-gray-600);
+}
+
+.sassy--select__dropdown:hover {
+  background-color: var(--chakra-colors-gray-400);
+}
+
+.sdp .sassy--option__active,
+.sdp .sassy--option:hover,
+.stp .sassy--option__active,
+.stp .sassy--option:hover {
+  background-color: var(--chakra-colors-primary-400);
+}
+
+.sdp button.sdp--date-btn__selected {
+  background-color: var(--chakra-colors-primary-400);
+}
+
+html.light {
+  --code-bg-color: hsla(212deg, 100%, 39%, 5%);
+}
+/* 
+ {
+  --code-bg-color: hsla(212deg, 100%, 77%, 10%);
+} */
