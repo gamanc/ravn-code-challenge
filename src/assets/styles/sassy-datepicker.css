@@ -4,12 +4,13 @@
   --disabled-color: var(--chakra-colors-gray-400);
   --outline: none;
   color: #e1e1e1;
+  box-shadow: none;
 }
 
 .sdp button,
 .stp button,
 .sassy--select__dropdown {
-  background-color: var(--chakra-colors-gray-600);
+  background-color: var(--chakra-colors-gray-700);
 }
 
 .sassy--select__dropdown:hover {
