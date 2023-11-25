@@ -41,3 +41,11 @@ const POINT_ESTIMATE_NUMERIC_VALUE: PointEstimateNumberObject = {
 
 export const getPointEstimateValue = (pointEstimate: PointEstimate) =>
   POINT_ESTIMATE_NUMERIC_VALUE[pointEstimate] ?? pointEstimate;
+
+export const TASK_FORM_DEFAULT_VALUES = {
+  taskName: "",
+  assignee: "",
+  dueDate: undefined,
+  pointEstimate: undefined,
+  tags: [],
+};

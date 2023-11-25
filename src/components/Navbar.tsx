@@ -10,6 +10,7 @@ import {
 import IconRouteLink from "./IconRouteLink";
 import IconDashboard from "../assets/icons/IconDashboard";
 import IconHamburger from "../assets/icons/IconHamburger";
+import AddTaskDialog from "./AddTaskDialog";
 
 const Navbar = () => {
   return (
@@ -34,13 +35,7 @@ const Navbar = () => {
           <IconRouteLink to="/my-tasks" icon={<IconHamburger />} />
           <IconRouteLink to="/" icon={<IconDashboard />} />
         </HStack>
-        <IconButton
-          aria-label="Add task"
-          bg="primary.400"
-          _hover={{ bg: "primary.300" }}
-          _active={{ bg: "primary.200" }}
-          icon={<AddIcon />}
-        />
+        <AddTaskDialog />
       </Flex>
     </Flex>
   );
