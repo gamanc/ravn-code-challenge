@@ -13,28 +13,14 @@ import { AddIcon } from "@chakra-ui/icons";
 import TaskForm, { TaskFormData } from "./TaskForm";
 import { FormProvider, useForm } from "react-hook-form";
 import { TASK_FORM_DEFAULT_VALUES } from "../constants/tasks";
-import { useMutation } from "@apollo/client";
-import { CREATE_TASK_MUTATION, TASKS_QUERY } from "../queries/taskQuerys";
 import { Status, TaskTag } from "../gql/graphql";
 
+import { useCreateTask } from "../services/tasks/hooks";
+
 const AddTaskDialog = () => {
-  const [createTask, { loading }] = useMutation(CREATE_TASK_MUTATION, {
-    update: (cache, { data }) => {
-      if (data?.createTask) {
-        const cacheData = cache.readQuery({
-          query: TASKS_QUERY,
-          variables: { input: {} },
-        });
-        if (cacheData) {
-          cache.writeQuery({
-            query: TASKS_QUERY,
-            variables: { input: {} },
-            data: { tasks: cacheData.tasks.concat(data.createTask) },
-          });
-        }
-      }
-    },
-  });
+  const { createTask, result } = useCreateTask();
+
+  const { loading } = result;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement | null>(null);
