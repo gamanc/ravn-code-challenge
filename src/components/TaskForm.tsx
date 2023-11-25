@@ -5,11 +5,11 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  HStack,
   Text,
   Box,
   Flex,
   VStack,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 
 import { Select as MultiSelect } from "chakra-react-select";
@@ -17,6 +17,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import DatePicker from "sassy-datepicker";
 import { PointEstimate, TaskTag } from "../gql/graphql";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import { TaskTagOption } from "../constants/tasks";
 
 interface UserOption {
   id: string;
@@ -28,13 +29,21 @@ export interface TaskFormData {
   taskName: string;
   pointEstimate: PointEstimate;
   assignee: string;
-  tags: TaskTag[];
+  tags: TaskTagOption[];
   dueDate: Date | null;
 }
 
 const users: UserOption[] = [
-  { id: "1", avatar: "avatar1.jpg", fullName: "John Doe" },
-  { id: "2", avatar: "avatar2.jpg", fullName: "Jane Doe" },
+  {
+    id: "703de395-1d49-4471-aafa-d990dcf32cd1",
+    fullName: "Grace Stone",
+    avatar: "https://avatars.dicebear.com/api/initials/gs.svg",
+  },
+  {
+    id: "a35d73eb-6829-4a92-ab82-43fe987ae02f",
+    fullName: "Jhon Doe",
+    avatar: "https://avatars.dicebear.com/api/initials/jd.svg",
+  },
 ];
 
 const TaskForm = () => {
@@ -55,8 +64,11 @@ const TaskForm = () => {
               value.trim() !== "" || "Task name cannot be empty",
           }}
           defaultValue=""
-          render={({ field }) => (
-            <Input {...field} variant="flush" placeholder="Task name" />
+          render={({ field, fieldState: { error } }) => (
+            <>
+              <Input {...field} variant="flush" placeholder="Task name" />
+              <FormErrorMessage>{error && error.message}</FormErrorMessage>
+            </>
           )}
         />
       </FormControl>
@@ -112,7 +124,7 @@ const TaskForm = () => {
                 placeholder="Select tags"
                 closeMenuOnSelect={false}
                 isMulti
-              ></MultiSelect>
+              />
             )}
           />
         </FormControl>
