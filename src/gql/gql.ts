@@ -13,9 +13,9 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  query GetAllTasks($input: FilterTaskInput!) {\n    tasks(input: $input) {\n      id\n      position\n      pointEstimate\n      name\n      dueDate\n      status\n      tags\n      assignee {\n        id\n        fullName\n        avatar\n      }\n      creator {\n        id\n        fullName\n        avatar\n      }\n    }\n  }\n": types.GetAllTasksDocument,
     "\n  mutation createTask($input: CreateTaskInput!) {\n    createTask(input: $input) {\n      id\n      position\n      pointEstimate\n      name\n      dueDate\n      status\n      tags\n      assignee {\n        id\n        fullName\n        avatar\n      }\n      creator {\n        id\n        fullName\n        avatar\n      }\n    }\n  }\n": types.CreateTaskDocument,
     "\n  mutation deleteTask($input: DeleteTaskInput!) {\n    deleteTask(input: $input) {\n      id\n      position\n      pointEstimate\n      name\n      dueDate\n      status\n      tags\n      assignee {\n        id\n        fullName\n        avatar\n      }\n      creator {\n        id\n        fullName\n        avatar\n      }\n    }\n  }\n": types.DeleteTaskDocument,
+    "\n  query GetAllTasks($input: FilterTaskInput!) {\n    tasks(input: $input) {\n      id\n      position\n      pointEstimate\n      name\n      dueDate\n      status\n      tags\n      assignee {\n        id\n        fullName\n        avatar\n      }\n      creator {\n        id\n        fullName\n        avatar\n      }\n    }\n  }\n": types.GetAllTasksDocument,
 };
 
 /**
@@ -35,15 +35,15 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetAllTasks($input: FilterTaskInput!) {\n    tasks(input: $input) {\n      id\n      position\n      pointEstimate\n      name\n      dueDate\n      status\n      tags\n      assignee {\n        id\n        fullName\n        avatar\n      }\n      creator {\n        id\n        fullName\n        avatar\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetAllTasks($input: FilterTaskInput!) {\n    tasks(input: $input) {\n      id\n      position\n      pointEstimate\n      name\n      dueDate\n      status\n      tags\n      assignee {\n        id\n        fullName\n        avatar\n      }\n      creator {\n        id\n        fullName\n        avatar\n      }\n    }\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function graphql(source: "\n  mutation createTask($input: CreateTaskInput!) {\n    createTask(input: $input) {\n      id\n      position\n      pointEstimate\n      name\n      dueDate\n      status\n      tags\n      assignee {\n        id\n        fullName\n        avatar\n      }\n      creator {\n        id\n        fullName\n        avatar\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation createTask($input: CreateTaskInput!) {\n    createTask(input: $input) {\n      id\n      position\n      pointEstimate\n      name\n      dueDate\n      status\n      tags\n      assignee {\n        id\n        fullName\n        avatar\n      }\n      creator {\n        id\n        fullName\n        avatar\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation deleteTask($input: DeleteTaskInput!) {\n    deleteTask(input: $input) {\n      id\n      position\n      pointEstimate\n      name\n      dueDate\n      status\n      tags\n      assignee {\n        id\n        fullName\n        avatar\n      }\n      creator {\n        id\n        fullName\n        avatar\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation deleteTask($input: DeleteTaskInput!) {\n    deleteTask(input: $input) {\n      id\n      position\n      pointEstimate\n      name\n      dueDate\n      status\n      tags\n      assignee {\n        id\n        fullName\n        avatar\n      }\n      creator {\n        id\n        fullName\n        avatar\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetAllTasks($input: FilterTaskInput!) {\n    tasks(input: $input) {\n      id\n      position\n      pointEstimate\n      name\n      dueDate\n      status\n      tags\n      assignee {\n        id\n        fullName\n        avatar\n      }\n      creator {\n        id\n        fullName\n        avatar\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetAllTasks($input: FilterTaskInput!) {\n    tasks(input: $input) {\n      id\n      position\n      pointEstimate\n      name\n      dueDate\n      status\n      tags\n      assignee {\n        id\n        fullName\n        avatar\n      }\n      creator {\n        id\n        fullName\n        avatar\n      }\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

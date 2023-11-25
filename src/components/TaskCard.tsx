@@ -11,15 +11,16 @@ import {
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
-import Chip, { ChipColor } from "./Chip";
 import { DeleteIcon, EditIcon, TimeIcon } from "@chakra-ui/icons";
 import IconDots from "../assets/icons/IconDots";
 import { PointEstimate, Task } from "../gql/graphql";
 import { getPointEstimateValue } from "../constants/tasks";
 import { calculateDateDifference } from "../helpers/dates";
+
 import ConfirmPopover from "./ConfirmPopover";
-import { useMutation } from "@apollo/client";
-import { DELETE_TASK_MUTATION, TASKS_QUERY } from "../queries/taskQuerys";
+import Chip, { ChipColor } from "./Chip";
+
+import { useDeleteTask } from "../services/tasks/hooks";
 
 interface Props {
   task: Partial<Task>;
@@ -28,27 +29,7 @@ interface Props {
 const TaskCard = ({ task }: Props) => {
   const dueDateObject = calculateDateDifference(task.dueDate);
 
-  const [deleteTask] = useMutation(DELETE_TASK_MUTATION, {
-    update: (cache, { data }) => {
-      if (data?.deleteTask) {
-        const cacheData = cache.readQuery({
-          query: TASKS_QUERY,
-          variables: { input: {} },
-        });
-        if (cacheData) {
-          cache.writeQuery({
-            query: TASKS_QUERY,
-            variables: { input: {} },
-            data: {
-              tasks: cacheData.tasks.filter(
-                (cacheTask) => cacheTask.id != task.id!
-              ),
-            },
-          });
-        }
-      }
-    },
-  });
+  const { deleteTask } = useDeleteTask(task.id!);
 
   return (
     <Flex

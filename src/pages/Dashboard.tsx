@@ -1,16 +1,13 @@
 import { Flex, Spinner } from "@chakra-ui/react";
 import TaskColumn from "../components/TaskColumn";
 
-import { useQuery } from "@apollo/client";
 import { useMemo } from "react";
 import { Status as TaskStatus, Task } from "../gql/graphql";
-import { TASKS_QUERY } from "../queries/taskQuerys";
 import { COLUMNS_ORDER, getTaskStatusName } from "../constants/tasks";
+import { useAllTasks } from "../services/tasks/hooks";
 
 const Dashboard = () => {
-  const { data, loading, error } = useQuery(TASKS_QUERY, {
-    variables: { input: {} },
-  });
+  const { data, loading, error } = useAllTasks();
 
   const organizedTasksByStatus = useMemo((): Record<TaskStatus, Task[]> => {
     if (!data?.tasks)
@@ -40,16 +37,18 @@ const Dashboard = () => {
           <Spinner size="xl" color="primary.400" />
         </Flex>
       )}
-      {COLUMNS_ORDER.map((status) => {
-        const columnTasks = organizedTasksByStatus[status] as Task[];
-        return (
-          <TaskColumn
-            key={status}
-            title={getTaskStatusName(status)}
-            tasks={columnTasks}
-          />
-        );
-      })}
+      {!loading &&
+        !error &&
+        COLUMNS_ORDER.map((status) => {
+          const columnTasks = organizedTasksByStatus[status] as Task[];
+          return (
+            <TaskColumn
+              key={status}
+              title={getTaskStatusName(status)}
+              tasks={columnTasks}
+            />
+          );
+        })}
     </Flex>
   );
 };
