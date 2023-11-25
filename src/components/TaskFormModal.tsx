@@ -1,15 +1,12 @@
-import { useEffect, useRef } from "react";
+import { ReactNode, useEffect } from "react";
 import {
   Box,
   Button,
-  IconButton,
   Modal,
   ModalContent,
   ModalFooter,
   ModalOverlay,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
 import TaskForm, { TaskFormData } from "./TaskForm";
 import { FormProvider, useForm } from "react-hook-form";
 import { TASK_FORM_DEFAULT_VALUES } from "../constants/tasks";
@@ -17,13 +14,21 @@ import { Status, TaskTag } from "../gql/graphql";
 
 import { useCreateTask } from "../services/tasks/hooks";
 
-const TaskFormModal = () => {
+interface Props {
+  triggerElement: ReactNode;
+  isModalOpen: boolean;
+  onOpenModal: () => void;
+  onCloseModal: () => void;
+}
+
+const TaskFormModal = ({
+  triggerElement,
+  isModalOpen,
+  onCloseModal,
+}: Props) => {
   const { createTask, result } = useCreateTask();
 
   const { loading } = result;
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef<HTMLButtonElement | null>(null);
 
   const methods = useForm<TaskFormData>({
     mode: "onChange",
@@ -48,7 +53,7 @@ const TaskFormModal = () => {
       },
     });
 
-    onClose();
+    onCloseModal();
   };
 
   const { isValid, isSubmitSuccessful } = methods.formState;
@@ -59,20 +64,17 @@ const TaskFormModal = () => {
 
   const handleClose = () => {
     methods.reset();
-    onClose();
+    onCloseModal();
   };
 
   return (
     <>
-      <IconButton
-        aria-label="Add task"
-        bg="primary.400"
-        _hover={{ bg: "primary.300" }}
-        _active={{ bg: "primary.200" }}
-        icon={<AddIcon />}
-        onClick={onOpen}
-      />
-      <Modal isOpen={isOpen} onClose={handleClose} closeOnOverlayClick={false}>
+      {triggerElement}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleClose}
+        closeOnOverlayClick={false}
+      >
         <ModalOverlay />
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onFormSubmit)}>
@@ -82,9 +84,7 @@ const TaskFormModal = () => {
               </Box>
 
               <ModalFooter>
-                <Button ref={cancelRef} onClick={handleClose}>
-                  Cancel
-                </Button>
+                <Button onClick={handleClose}>Cancel</Button>
                 <Button
                   colorScheme="red"
                   ml={3}

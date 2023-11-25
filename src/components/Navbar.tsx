@@ -1,11 +1,21 @@
-import { BellIcon, SearchIcon } from "@chakra-ui/icons";
-import { Avatar, Flex, HStack, Spacer, Text } from "@chakra-ui/react";
+import { AddIcon, BellIcon, SearchIcon } from "@chakra-ui/icons";
+import {
+  Avatar,
+  Flex,
+  HStack,
+  IconButton,
+  Spacer,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import IconRouteLink from "./IconRouteLink";
 import IconDashboard from "../assets/icons/IconDashboard";
 import IconHamburger from "../assets/icons/IconHamburger";
 import TaskFormModal from "./TaskFormModal";
 
 const Navbar = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Flex as="nav" flexDir="column">
       <Flex
@@ -28,7 +38,21 @@ const Navbar = () => {
           <IconRouteLink to="/my-tasks" icon={<IconHamburger />} />
           <IconRouteLink to="/" icon={<IconDashboard />} />
         </HStack>
-        <TaskFormModal />
+        <TaskFormModal
+          triggerElement={
+            <IconButton
+              aria-label="Add task"
+              bg="primary.400"
+              _hover={{ bg: "primary.300" }}
+              _active={{ bg: "primary.200" }}
+              icon={<AddIcon />}
+              onClick={onOpen}
+            />
+          }
+          isModalOpen={isOpen}
+          onOpenModal={onOpen}
+          onCloseModal={onClose}
+        />
       </Flex>
     </Flex>
   );
