@@ -1,11 +1,10 @@
 import {
   Avatar,
-  Box,
+  Button,
   Flex,
   IconButton,
   Menu,
   MenuButton,
-  MenuItem,
   MenuList,
   Text,
   Tooltip,
@@ -18,6 +17,9 @@ import IconDots from "../assets/icons/IconDots";
 import { PointEstimate, Task } from "../gql/graphql";
 import { getPointEstimateValue } from "../constants/tasks";
 import { calculateDateDifference } from "../helpers/dates";
+import ConfirmPopover from "./ConfirmPopover";
+import { useMutation } from "@apollo/client";
+import { DELETE_TASK_MUTATION, TASKS_QUERY } from "../queries/taskQuerys";
 
 interface Props {
   task: Partial<Task>;
@@ -25,6 +27,29 @@ interface Props {
 
 const TaskCard = ({ task }: Props) => {
   const dueDateObject = calculateDateDifference(task.dueDate);
+
+  const [deleteTask] = useMutation(DELETE_TASK_MUTATION, {
+    update: (cache, { data }) => {
+      if (data?.deleteTask) {
+        const cacheData = cache.readQuery({
+          query: TASKS_QUERY,
+          variables: { input: {} },
+        });
+        if (cacheData) {
+          cache.writeQuery({
+            query: TASKS_QUERY,
+            variables: { input: {} },
+            data: {
+              tasks: cacheData.tasks.filter(
+                (cacheTask) => cacheTask.id != task.id!
+              ),
+            },
+          });
+        }
+      }
+    },
+  });
+
   return (
     <Flex
       flexDirection="column"
@@ -36,10 +61,8 @@ const TaskCard = ({ task }: Props) => {
       p={4}
     >
       <Flex justifyContent="space-between" pb={4}>
-        <Text fontWeight={600}>
-          {task.name} - {task.position}
-        </Text>
-        <Menu>
+        <Text fontWeight={600}>{task.name}</Text>
+        <Menu closeOnSelect={false}>
           <MenuButton
             as={IconButton}
             size="sm"
@@ -52,18 +75,28 @@ const TaskCard = ({ task }: Props) => {
             icon={<IconDots />}
           />
           <MenuList w="140px">
-            <MenuItem>
-              <EditIcon boxSize={5} />
-              <Text size="sm" ml={2}>
-                Edit
-              </Text>
-            </MenuItem>
-            <MenuItem>
-              <DeleteIcon boxSize={5} />
-              <Text size="sm" ml={2}>
-                Delete
-              </Text>
-            </MenuItem>
+            <Button variant="ghost" w="100%">
+              <Flex w="100%">
+                <EditIcon boxSize={5} />
+                <Text size="sm" ml={2}>
+                  Edit
+                </Text>
+              </Flex>
+            </Button>
+            <ConfirmPopover
+              actionLabel="Delete"
+              onConfirm={() =>
+                deleteTask({ variables: { input: { id: task.id! } } })
+              }
+              triggerElement={
+                <Flex w="100%">
+                  <DeleteIcon boxSize={5} />
+                  <Text size="sm" ml={2}>
+                    Delete
+                  </Text>
+                </Flex>
+              }
+            />
           </MenuList>
         </Menu>
       </Flex>
