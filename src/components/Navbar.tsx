@@ -1,16 +1,9 @@
-import { AddIcon, BellIcon, SearchIcon } from "@chakra-ui/icons";
-import {
-  Avatar,
-  Flex,
-  HStack,
-  IconButton,
-  Spacer,
-  Text,
-} from "@chakra-ui/react";
+import { BellIcon, SearchIcon } from "@chakra-ui/icons";
+import { Avatar, Flex, HStack, Spacer, Text } from "@chakra-ui/react";
 import IconRouteLink from "./IconRouteLink";
 import IconDashboard from "../assets/icons/IconDashboard";
 import IconHamburger from "../assets/icons/IconHamburger";
-import AddTaskDialog from "./AddTaskDialog";
+import TaskFormModal from "./TaskFormModal";
 
 const Navbar = () => {
   return (
@@ -35,7 +28,7 @@ const Navbar = () => {
           <IconRouteLink to="/my-tasks" icon={<IconHamburger />} />
           <IconRouteLink to="/" icon={<IconDashboard />} />
         </HStack>
-        <AddTaskDialog />
+        <TaskFormModal />
       </Flex>
     </Flex>
   );

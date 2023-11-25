@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogOverlay,
   Box,
   Button,
   IconButton,
+  Modal,
+  ModalContent,
+  ModalFooter,
+  ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
@@ -17,7 +17,7 @@ import { Status, TaskTag } from "../gql/graphql";
 
 import { useCreateTask } from "../services/tasks/hooks";
 
-const AddTaskDialog = () => {
+const TaskFormModal = () => {
   const { createTask, result } = useCreateTask();
 
   const { loading } = result;
@@ -72,40 +72,35 @@ const AddTaskDialog = () => {
         icon={<AddIcon />}
         onClick={onOpen}
       />
-      <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={handleClose}
-      >
-        <AlertDialogOverlay>
-          <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onFormSubmit)}>
-              <AlertDialogContent minWidth="fit-content" height="fit-content">
-                <Box p={8} w="lg">
-                  <TaskForm />
-                </Box>
+      <Modal isOpen={isOpen} onClose={handleClose} closeOnOverlayClick={false}>
+        <ModalOverlay />
+        <FormProvider {...methods}>
+          <form onSubmit={methods.handleSubmit(onFormSubmit)}>
+            <ModalContent minWidth="fit-content" height="fit-content">
+              <Box p={8} w="lg">
+                <TaskForm />
+              </Box>
 
-                <AlertDialogFooter>
-                  <Button ref={cancelRef} onClick={handleClose}>
-                    Cancel
-                  </Button>
-                  <Button
-                    colorScheme="red"
-                    ml={3}
-                    type="submit"
-                    isDisabled={!isValid}
-                    isLoading={loading}
-                  >
-                    Save
-                  </Button>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </form>
-          </FormProvider>
-        </AlertDialogOverlay>
-      </AlertDialog>
+              <ModalFooter>
+                <Button ref={cancelRef} onClick={handleClose}>
+                  Cancel
+                </Button>
+                <Button
+                  colorScheme="red"
+                  ml={3}
+                  type="submit"
+                  isDisabled={!isValid}
+                  isLoading={loading}
+                >
+                  Save
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </form>
+        </FormProvider>
+      </Modal>
     </>
   );
 };
 
-export default AddTaskDialog;
+export default TaskFormModal;
