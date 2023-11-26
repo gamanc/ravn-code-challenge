@@ -6,11 +6,15 @@ import theme from "./config/theme";
 import { router } from "./config/router";
 import { RouterProvider } from "react-router-dom";
 
+import { createStandaloneToast } from "@chakra-ui/react";
+const { ToastContainer } = createStandaloneToast();
+
 function App() {
   return (
     <ChakraProvider theme={theme}>
       <ApolloProvider client={client}>
         <RouterProvider router={router} />
+        <ToastContainer />
       </ApolloProvider>
     </ChakraProvider>
   );

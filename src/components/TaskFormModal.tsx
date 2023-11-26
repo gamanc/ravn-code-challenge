@@ -32,7 +32,7 @@ const TaskFormModal = ({
 
   const { loading } = result;
 
-  const methods = useForm<TaskFormData>({
+  const formMethods = useForm<TaskFormData>({
     mode: "onChange",
     defaultValues: task
       ? {
@@ -48,36 +48,36 @@ const TaskFormModal = ({
       : TASK_FORM_DEFAULT_VALUES,
   });
 
-  const onFormSubmit = (formData: TaskFormData) => {
+  const onFormSubmit = async (formData: TaskFormData) => {
     const { taskName, tags, assignee, dueDate, pointEstimate } = formData;
 
     const tagsData = tags.map((tag) => tag.value) as TaskTag[];
 
-    saveTask({
-      variables: {
-        input: {
-          id: task?.id!,
-          name: taskName,
-          tags: tagsData,
-          assigneeId: assignee,
-          dueDate: dueDate?.toISOString(),
-          pointEstimate,
-          status: Status.Backlog,
+    try {
+      await saveTask({
+        variables: {
+          input: {
+            id: task?.id!,
+            name: taskName,
+            tags: tagsData,
+            assigneeId: assignee,
+            dueDate: dueDate?.toISOString(),
+            pointEstimate,
+            status: Status.Backlog,
+          },
         },
-      },
-    });
-
-    onCloseModal();
+      });
+      onCloseModal();
+      formMethods.reset();
+    } catch (error) {
+      console.error({ error });
+    }
   };
 
-  const { isValid, isSubmitSuccessful } = methods.formState;
-
-  useEffect(() => {
-    if (isSubmitSuccessful) methods.reset();
-  }, [isSubmitSuccessful]);
+  const { isValid } = formMethods.formState;
 
   const handleClose = () => {
-    methods.reset();
+    formMethods.reset();
     onCloseModal();
   };
 
@@ -90,8 +90,8 @@ const TaskFormModal = ({
         closeOnOverlayClick={false}
       >
         <ModalOverlay />
-        <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onFormSubmit)}>
+        <FormProvider {...formMethods}>
+          <form onSubmit={formMethods.handleSubmit(onFormSubmit)}>
             <ModalContent minWidth="fit-content" height="fit-content">
               <Box p={8} w="lg">
                 <TaskForm />
