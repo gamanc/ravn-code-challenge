@@ -10,6 +10,7 @@ import {
   Tooltip,
   Wrap,
   WrapItem,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon, TimeIcon } from "@chakra-ui/icons";
 import IconDots from "../assets/icons/IconDots";
@@ -21,6 +22,7 @@ import ConfirmPopover from "./ConfirmPopover";
 import Chip, { ChipColor } from "./Chip";
 
 import { useDeleteTask } from "../services/tasks/hooks";
+import TaskFormModal from "./TaskFormModal";
 
 interface Props {
   task: Partial<Task>;
@@ -28,6 +30,7 @@ interface Props {
 
 const TaskCard = ({ task }: Props) => {
   const dueDateObject = calculateDateDifference(task.dueDate);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { deleteTask } = useDeleteTask(task.id!);
 
@@ -56,14 +59,23 @@ const TaskCard = ({ task }: Props) => {
             icon={<IconDots />}
           />
           <MenuList w="140px">
-            <Button variant="ghost" w="100%">
-              <Flex w="100%">
-                <EditIcon boxSize={5} />
-                <Text size="sm" ml={2}>
-                  Edit
-                </Text>
-              </Flex>
-            </Button>
+            <TaskFormModal
+              triggerElement={
+                <Button variant="ghost" w="100%" onClick={onOpen}>
+                  <Flex w="100%">
+                    <EditIcon boxSize={5} />
+                    <Text size="sm" ml={2}>
+                      Edit
+                    </Text>
+                  </Flex>
+                </Button>
+              }
+              isModalOpen={isOpen}
+              onOpenModal={onOpen}
+              onCloseModal={onClose}
+              task={task}
+            />
+
             <ConfirmPopover
               actionLabel="Delete"
               onConfirm={() =>

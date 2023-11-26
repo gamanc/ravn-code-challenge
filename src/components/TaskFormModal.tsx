@@ -9,30 +9,43 @@ import {
 } from "@chakra-ui/react";
 import TaskForm, { TaskFormData } from "./TaskForm";
 import { FormProvider, useForm } from "react-hook-form";
-import { TASK_FORM_DEFAULT_VALUES } from "../constants/tasks";
-import { Status, TaskTag } from "../gql/graphql";
+import { TASK_FORM_DEFAULT_VALUES, getTaskTagName } from "../constants/tasks";
+import { Status, Task, TaskTag } from "../gql/graphql";
 
-import { useCreateTask } from "../services/tasks/hooks";
+import { useSaveTask } from "../services/tasks/hooks";
 
 interface Props {
   triggerElement: ReactNode;
   isModalOpen: boolean;
   onOpenModal: () => void;
   onCloseModal: () => void;
+  task?: Partial<Task>;
 }
 
 const TaskFormModal = ({
   triggerElement,
   isModalOpen,
   onCloseModal,
+  task,
 }: Props) => {
-  const { createTask, result } = useCreateTask();
+  const { saveTask, result } = useSaveTask(task?.id);
 
   const { loading } = result;
 
   const methods = useForm<TaskFormData>({
     mode: "onChange",
-    defaultValues: TASK_FORM_DEFAULT_VALUES,
+    defaultValues: task
+      ? {
+          taskName: task.name,
+          assignee: task.assignee?.id,
+          tags: task.tags!.map((tag) => ({
+            label: getTaskTagName(tag),
+            value: tag,
+          })),
+          dueDate: new Date(task.dueDate),
+          pointEstimate: task.pointEstimate,
+        }
+      : TASK_FORM_DEFAULT_VALUES,
   });
 
   const onFormSubmit = (formData: TaskFormData) => {
@@ -40,9 +53,10 @@ const TaskFormModal = ({
 
     const tagsData = tags.map((tag) => tag.value) as TaskTag[];
 
-    createTask({
+    saveTask({
       variables: {
         input: {
+          id: task?.id!,
           name: taskName,
           tags: tagsData,
           assigneeId: assignee,
@@ -92,7 +106,7 @@ const TaskFormModal = ({
                   isDisabled={!isValid}
                   isLoading={loading}
                 >
-                  Save
+                  {!task ? "Create" : "Update"}
                 </Button>
               </ModalFooter>
             </ModalContent>

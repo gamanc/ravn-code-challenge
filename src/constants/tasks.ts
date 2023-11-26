@@ -1,4 +1,4 @@
-import { PointEstimate, Status as TaskStatus } from "../gql/graphql";
+import { PointEstimate, Status as TaskStatus, TaskTag } from "../gql/graphql";
 
 export const COLUMNS_ORDER: TaskStatus[] = [
   TaskStatus.Backlog,
@@ -54,3 +54,17 @@ export type TaskTagOption = {
   label: string;
   value: string;
 };
+
+type TagsStringObject = {
+  [K in TaskTag]: string;
+};
+
+const TASK_TAGS_NAME: TagsStringObject = {
+  [TaskTag.Android]: "Android",
+  [TaskTag.Ios]: "Ios",
+  [TaskTag.NodeJs]: "NodeJs",
+  [TaskTag.Rails]: "Rails",
+  [TaskTag.React]: "React",
+};
+
+export const getTaskTagName = (tag: TaskTag) => TASK_TAGS_NAME[tag] ?? tag;
