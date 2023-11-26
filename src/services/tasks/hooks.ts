@@ -33,24 +33,7 @@ export const useSaveTask = (taskId?: string) => {
     },
   });
 
-  const [updateTask, updateResult] = useMutation(UPDATE_TASK_MUTATION, {
-    update: (cache, { data }) => {
-      if (data?.updateTask) {
-        const cacheData = cache.readQuery({
-          query: TASKS_QUERY,
-          variables: { input: {} },
-        });
-        if (cacheData) {
-          const newTags = cacheData.tasks.filter((task) => task.id !== taskId);
-          cache.writeQuery({
-            query: TASKS_QUERY,
-            variables: { input: {} },
-            data: { tasks: newTags.concat(data.updateTask) },
-          });
-        }
-      }
-    },
-  });
+  const [updateTask, updateResult] = useMutation(UPDATE_TASK_MUTATION);
 
   if (taskId) {
     return { saveTask: updateTask, result: updateResult };

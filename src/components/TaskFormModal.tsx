@@ -32,20 +32,22 @@ const TaskFormModal = ({
 
   const { loading } = result;
 
+  const values = task
+    ? {
+        taskName: task.name,
+        assignee: task.assignee?.id,
+        tags: task.tags!.map((tag) => ({
+          label: getTaskTagName(tag),
+          value: tag,
+        })),
+        dueDate: new Date(task.dueDate),
+        pointEstimate: task.pointEstimate,
+      }
+    : TASK_FORM_DEFAULT_VALUES;
+
   const formMethods = useForm<TaskFormData>({
     mode: "onChange",
-    defaultValues: task
-      ? {
-          taskName: task.name,
-          assignee: task.assignee?.id,
-          tags: task.tags!.map((tag) => ({
-            label: getTaskTagName(tag),
-            value: tag,
-          })),
-          dueDate: new Date(task.dueDate),
-          pointEstimate: task.pointEstimate,
-        }
-      : TASK_FORM_DEFAULT_VALUES,
+    defaultValues: values,
   });
 
   const onFormSubmit = async (formData: TaskFormData) => {
@@ -68,7 +70,7 @@ const TaskFormModal = ({
         },
       });
       onCloseModal();
-      formMethods.reset();
+      if (!task) formMethods.reset();
     } catch (error) {
       console.error({ error });
     }
@@ -77,7 +79,7 @@ const TaskFormModal = ({
   const { isValid } = formMethods.formState;
 
   const handleClose = () => {
-    formMethods.reset();
+    if (!task) formMethods.reset();
     onCloseModal();
   };
 

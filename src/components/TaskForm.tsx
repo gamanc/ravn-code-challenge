@@ -18,12 +18,7 @@ import DatePicker from "sassy-datepicker";
 import { PointEstimate, TaskTag } from "../gql/graphql";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { TaskTagOption } from "../constants/tasks";
-
-interface UserOption {
-  id: string;
-  avatar: string;
-  fullName: string;
-}
+import { useAllUsers } from "../services/users/hooks";
 
 export interface TaskFormData {
   taskName: string;
@@ -33,24 +28,13 @@ export interface TaskFormData {
   dueDate: Date | null;
 }
 
-const users: UserOption[] = [
-  {
-    id: "703de395-1d49-4471-aafa-d990dcf32cd1",
-    fullName: "Grace Stone",
-    avatar: "https://avatars.dicebear.com/api/initials/gs.svg",
-  },
-  {
-    id: "a35d73eb-6829-4a92-ab82-43fe987ae02f",
-    fullName: "Jhon Doe",
-    avatar: "https://avatars.dicebear.com/api/initials/jd.svg",
-  },
-];
-
 const TaskForm = () => {
   const {
     control,
     formState: { errors },
   } = useFormContext();
+
+  const { data } = useAllUsers();
 
   return (
     <>
@@ -100,7 +84,7 @@ const TaskForm = () => {
             rules={{ required: "Assignee is required" }}
             render={({ field }) => (
               <Select {...field} placeholder="Assignee">
-                {users.map((user) => (
+                {data?.users.map((user) => (
                   <option key={user.id} value={user.id}>
                     {user.fullName}
                   </option>
