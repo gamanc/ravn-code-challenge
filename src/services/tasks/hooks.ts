@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { TASKS_QUERY } from "./graphqlQueries";
 import {
   CREATE_TASK_MUTATION,
@@ -14,18 +14,24 @@ export const useAllTasks = () => {
   return result;
 };
 
+export const useFindTasks = () => {
+  const [getTasks, result] = useLazyQuery(TASKS_QUERY, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  return { getTasks, result };
+};
+
 export const useSaveTask = (taskId?: string) => {
   const [createTask, createResult] = useMutation(CREATE_TASK_MUTATION, {
     update: (cache, { data }) => {
       if (data?.createTask) {
         const cacheData = cache.readQuery({
           query: TASKS_QUERY,
-          variables: { input: {} },
         });
         if (cacheData) {
           cache.writeQuery({
             query: TASKS_QUERY,
-            variables: { input: {} },
             data: { tasks: cacheData.tasks.concat(data.createTask) },
           });
         }

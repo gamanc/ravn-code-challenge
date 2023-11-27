@@ -4,6 +4,7 @@ import {
   Flex,
   HStack,
   IconButton,
+  Input,
   Spacer,
   Text,
   useDisclosure,
@@ -12,9 +13,15 @@ import IconRouteLink from "./IconRouteLink";
 import IconDashboard from "../assets/icons/IconDashboard";
 import IconHamburger from "../assets/icons/IconHamburger";
 import TaskFormModal from "./TaskFormModal";
+import { useStore } from "../store/store";
 
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { searchTerm, setSearchTerm } = useStore();
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
 
   return (
     <Flex as="nav" flexDir="column">
@@ -25,8 +32,14 @@ const Navbar = () => {
         borderRadius={16}
         color={"neutral.200"}
       >
-        <SearchIcon mr={8} color="neutral.200" boxSize={5} />
-        <Text>Search...</Text>
+        <SearchIcon mr={6} color="neutral.200" boxSize={5} />
+        <Input
+          variant="unstyled"
+          placeholder="Search..."
+          size="lg"
+          value={searchTerm}
+          onChange={handleChange}
+        />
         <Spacer />
         <HStack spacing={8}>
           <BellIcon color="neutral.200" boxSize={5} />

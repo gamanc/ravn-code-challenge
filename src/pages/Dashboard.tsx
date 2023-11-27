@@ -1,13 +1,27 @@
-import { Flex, Spinner } from "@chakra-ui/react";
+import { Flex, Spinner, Text } from "@chakra-ui/react";
 import TaskColumn from "../components/TaskColumn";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Status as TaskStatus, Task } from "../gql/graphql";
 import { COLUMNS_ORDER, getTaskStatusName } from "../constants/tasks";
-import { useAllTasks } from "../services/tasks/hooks";
+import { useFindTasks } from "../services/tasks/hooks";
+import { useStore } from "../store/store";
+import { useDebounce } from "../hooks/useDebounce";
 
 const Dashboard = () => {
-  const { data, loading, error } = useAllTasks();
+  const { getTasks, result } = useFindTasks();
+  const { data, loading, error } = result;
+  const { searchTerm } = useStore();
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  useEffect(() => {
+    getTasks({ variables: { input: {} } });
+  }, []);
+
+  useEffect(() => {
+    const filters = debouncedSearchTerm ? { name: debouncedSearchTerm } : {};
+    getTasks({ variables: { input: filters } });
+  }, [debouncedSearchTerm]);
 
   const organizedTasksByStatus = useMemo((): Record<TaskStatus, Task[]> => {
     if (!data?.tasks)
@@ -31,25 +45,32 @@ const Dashboard = () => {
   if (error) return <p>{error.message}</p>;
 
   return (
-    <Flex height="calc(100vh - 200px)" mt={6} gap={4} overflowX="auto">
-      {loading && (
-        <Flex w="100%" justifyContent="center">
-          <Spinner size="xl" color="primary.400" />
-        </Flex>
+    <>
+      {data?.tasks.length === 0 && (
+        <Text textAlign="center" w="100%">
+          No tasks found
+        </Text>
       )}
-      {!loading &&
-        !error &&
-        COLUMNS_ORDER.map((status) => {
-          const columnTasks = organizedTasksByStatus[status] as Task[];
-          return (
-            <TaskColumn
-              key={status}
-              title={getTaskStatusName(status)}
-              tasks={columnTasks}
-            />
-          );
-        })}
-    </Flex>
+      <Flex height="calc(100vh - 200px)" mt={6} gap={4} overflowX="auto">
+        {loading && (
+          <Flex w="100%" justifyContent="center">
+            <Spinner size="xl" color="primary.400" />
+          </Flex>
+        )}
+        {!loading &&
+          !error &&
+          COLUMNS_ORDER.map((status) => {
+            const columnTasks = organizedTasksByStatus[status] as Task[];
+            return (
+              <TaskColumn
+                key={status}
+                title={getTaskStatusName(status)}
+                tasks={columnTasks}
+              />
+            );
+          })}
+      </Flex>
+    </>
   );
 };
 
