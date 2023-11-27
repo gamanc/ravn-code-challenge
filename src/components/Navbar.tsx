@@ -5,6 +5,7 @@ import {
   HStack,
   IconButton,
   Input,
+  Link,
   Spacer,
   Tooltip,
   useDisclosure,
@@ -15,6 +16,7 @@ import IconHamburger from "../assets/icons/IconHamburger";
 import TaskFormModal from "./TaskFormModal";
 import { useStore } from "../store/store";
 import { useUserProfile } from "../services/users/hooks";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,7 +27,6 @@ const Navbar = () => {
   };
 
   const { data } = useUserProfile();
-  // const {profile} = data;
 
   return (
     <Flex as="nav" flexDir="column">
@@ -47,20 +48,22 @@ const Navbar = () => {
         <Spacer />
         <HStack spacing={8}>
           <BellIcon color="neutral.200" boxSize={5} />
-          <Tooltip
-            label={data?.profile?.fullName}
-            openDelay={500}
-            bg="neutral.400"
-            color="white"
-            cursor="pointer"
-          >
-            <Avatar
-              name={data?.profile.fullName}
-              src={data?.profile.avatar || ""}
-              size="sm"
+          <Link as={NavLink} to="/profile">
+            <Tooltip
+              label={data?.profile?.fullName}
+              openDelay={500}
+              bg="neutral.400"
+              color="white"
               cursor="pointer"
-            />
-          </Tooltip>
+            >
+              <Avatar
+                name={data?.profile.fullName}
+                src={data?.profile.avatar || ""}
+                size="sm"
+                cursor="pointer"
+              />
+            </Tooltip>
+          </Link>
         </HStack>
       </Flex>
       <Flex justifyContent="space-between" mt={8}>
