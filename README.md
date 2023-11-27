@@ -1,4 +1,4 @@
-## Clear Setup/Running Instructions
+## Setup/Running Instructions
 
 The project is built with [Vite](https://vitejs.dev/), a fast React framework. Follow these steps to set up and run the project:
 
