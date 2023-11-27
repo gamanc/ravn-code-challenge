@@ -52,16 +52,16 @@ This project is a simplified version of a Trello board, organized into different
 ### Project Structure
 
 
-```- assets: static images and icons 
- - components: common components across the application
- - config: config files for providers (react-router, apollo, and chakra ui theme)
- - constants: common values used across the app, separated by concerns
- - gql: generated type files by graphql-codegen/cli for improved developer experience using apollo/typescript
- - helpers: common helper functions, like date formatters, etc.
- - hooks: custom hooks
- - layouts: main layout components
- - pages: pages components
- - services: subfolders for each relevant entity (e.g., tasks, users) with GraphQL queries, mutations, and custom hooks for components. This abstraction allows easy changes in clients if necessary.
- - store: Zustand store definition
-```
+- **assets**: static images and icons 
+- **components**: common components across the application
+- **config**: config files for providers (react-router, apollo, and chakra ui theme)
+- **constants**: common values used across the app, separated by concerns
+- **gql**: generated type files by graphql-codegen/cli for improved developer experience using apollo/typescript
+- **helpers**: common helper functions, like date formatters, etc.
+- **hooks**: custom hooks
+- **layouts**: main layout components
+- **pages**: pages components
+- **services**: subfolders for each relevant entity (e.g., tasks, users) with GraphQL queries, mutations, and custom hooks for components. This abstraction allows easy changes in clients if necessary.
+- **store**: Zustand store definition
+
 
