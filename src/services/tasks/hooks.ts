@@ -5,6 +5,7 @@ import {
   DELETE_TASK_MUTATION,
   UPDATE_TASK_MUTATION,
 } from "./graphqlMutations";
+import { Status } from "../../gql/graphql";
 
 export const useAllTasks = () => {
   const result = useQuery(TASKS_QUERY, {
@@ -41,10 +42,42 @@ export const useSaveTask = (taskId?: string) => {
 
   const [updateTask, updateResult] = useMutation(UPDATE_TASK_MUTATION);
 
+  const updateTaskStatus = (taskId: string, newStatus: Status) => {
+    updateTask({
+      variables: {
+        input: {
+          id: taskId,
+          status: newStatus,
+        },
+      },
+    });
+  };
+
   if (taskId) {
     return { saveTask: updateTask, result: updateResult };
   }
-  return { saveTask: createTask, result: createResult };
+  return {
+    saveTask: createTask,
+    result: createResult,
+    updateTaskStatus,
+  };
+};
+
+export const useUpdateTaskStatus = () => {
+  const [updateTask, updateResult] = useMutation(UPDATE_TASK_MUTATION);
+
+  const updateTaskStatus = (taskId: string, newStatus: Status) => {
+    updateTask({
+      variables: {
+        input: {
+          id: taskId,
+          status: newStatus,
+        },
+      },
+    });
+  };
+
+  return { updateTaskStatus, updateResult };
 };
 
 export const useDeleteTask = (taskId: string) => {

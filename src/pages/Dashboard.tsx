@@ -65,6 +65,7 @@ const Dashboard = () => {
               <TaskColumn
                 key={status}
                 title={getTaskStatusName(status)}
+                status={status}
                 tasks={columnTasks}
               />
             );

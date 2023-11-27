@@ -34,6 +34,10 @@ const TaskCard = ({ task }: Props) => {
 
   const { deleteTask } = useDeleteTask(task.id!);
 
+  const handleOnDrag = (e: React.DragEvent) => {
+    e.dataTransfer.setData("taskId", task.id!);
+  };
+
   return (
     <Flex
       flexDirection="column"
@@ -43,6 +47,9 @@ const TaskCard = ({ task }: Props) => {
       minHeight={208}
       height="auto"
       p={4}
+      transform="translate(0,0)"
+      onDragStart={handleOnDrag}
+      draggable
     >
       <Flex justifyContent="space-between" pb={4}>
         <Text fontWeight={600}>{task.name}</Text>
