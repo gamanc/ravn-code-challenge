@@ -31,7 +31,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     });
   }
   if (networkError) {
-    console.log(networkError);
     toast({
       title: "Error",
       description: networkError.message,
@@ -43,7 +42,26 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          tasks: {
+            keyArgs: () => "allTasks",
+            merge(existing = [], incoming, { args }) {
+              const { offset = 0 } = args || {};
+
+              if (offset > 0) {
+                return [...existing, ...incoming];
+              }
+
+              return incoming;
+            },
+          },
+        },
+      },
+    },
+  }),
   link: authLink.concat(errorLink).concat(httpLink),
   connectToDevTools: true,
 });
