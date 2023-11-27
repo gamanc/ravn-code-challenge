@@ -2,6 +2,7 @@ import { Box, Text, VStack } from "@chakra-ui/react";
 import TaskCard from "./TaskCard";
 import { Status as TaskStatus, Task } from "../gql/graphql";
 import { useUpdateTaskStatus } from "../services/tasks/hooks";
+import { useStore } from "../store/store";
 
 interface Props {
   title?: string;
@@ -11,6 +12,7 @@ interface Props {
 
 const TaskColumn = ({ title = "", status, tasks = [] }: Props) => {
   const { updateTaskStatus } = useUpdateTaskStatus();
+  const { isDragging, setIsDragging } = useStore();
 
   const handleDrop = async (e: React.DragEvent) => {
     const taskId = e.dataTransfer.getData("taskId") as string;
@@ -18,6 +20,8 @@ const TaskColumn = ({ title = "", status, tasks = [] }: Props) => {
       updateTaskStatus(taskId, status);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsDragging(false);
     }
   };
 
@@ -38,7 +42,13 @@ const TaskColumn = ({ title = "", status, tasks = [] }: Props) => {
       <Text fontWeight="600" pb={4}>
         {`${title} (${tasks.length})`}
       </Text>
-      <Box overflowY="auto" height="calc(100% - 50px)">
+      <Box
+        overflowY="auto"
+        height="calc(100% - 50px)"
+        bg={isDragging ? "primary.100" : "transparent"}
+        transition="background-color 0.5s ease"
+        borderRadius={8}
+      >
         <VStack spacing={4}>
           {tasks.map((task) => (
             <TaskCard key={task.id} task={task} />

@@ -23,6 +23,7 @@ import Chip, { ChipColor } from "./Chip";
 
 import { useDeleteTask } from "../services/tasks/hooks";
 import TaskFormModal from "./TaskFormModal";
+import { useStore } from "../store/store";
 
 interface Props {
   task: Partial<Task>;
@@ -31,11 +32,13 @@ interface Props {
 const TaskCard = ({ task }: Props) => {
   const dueDateObject = calculateDateDifference(task.dueDate);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { setIsDragging } = useStore();
 
   const { deleteTask } = useDeleteTask(task.id!);
 
   const handleOnDrag = (e: React.DragEvent) => {
     e.dataTransfer.setData("taskId", task.id!);
+    setIsDragging(true);
   };
 
   return (
