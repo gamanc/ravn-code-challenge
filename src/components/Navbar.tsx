@@ -6,7 +6,6 @@ import {
   IconButton,
   Input,
   Spacer,
-  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import IconRouteLink from "./IconRouteLink";

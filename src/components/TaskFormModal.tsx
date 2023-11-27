@@ -65,7 +65,7 @@ const TaskFormModal = ({
             assigneeId: assignee,
             dueDate: dueDate?.toISOString(),
             pointEstimate,
-            status: Status.Backlog,
+            status: task?.status ?? Status.Backlog,
           },
         },
       });
