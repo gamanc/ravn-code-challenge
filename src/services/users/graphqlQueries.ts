@@ -10,4 +10,18 @@ const ALL_USERS_QUERY = graphql(`
   }
 `);
 
-export { ALL_USERS_QUERY };
+const USER_PROFILE_QUERY = graphql(`
+  query GetProfile {
+    profile {
+      id
+      type
+      fullName
+      email
+      avatar
+      createdAt
+      updatedAt
+    }
+  }
+`);
+
+export { ALL_USERS_QUERY, USER_PROFILE_QUERY };

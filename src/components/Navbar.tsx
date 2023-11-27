@@ -6,6 +6,7 @@ import {
   IconButton,
   Input,
   Spacer,
+  Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
 import IconRouteLink from "./IconRouteLink";
@@ -13,6 +14,7 @@ import IconDashboard from "../assets/icons/IconDashboard";
 import IconHamburger from "../assets/icons/IconHamburger";
 import TaskFormModal from "./TaskFormModal";
 import { useStore } from "../store/store";
+import { useUserProfile } from "../services/users/hooks";
 
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -21,6 +23,9 @@ const Navbar = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
+
+  const { data } = useUserProfile();
+  // const {profile} = data;
 
   return (
     <Flex as="nav" flexDir="column">
@@ -42,7 +47,20 @@ const Navbar = () => {
         <Spacer />
         <HStack spacing={8}>
           <BellIcon color="neutral.200" boxSize={5} />
-          <Avatar name="Ravn" size="sm" />
+          <Tooltip
+            label={data?.profile?.fullName}
+            openDelay={500}
+            bg="neutral.400"
+            color="white"
+            cursor="pointer"
+          >
+            <Avatar
+              name={data?.profile.fullName}
+              src={data?.profile.avatar || ""}
+              size="sm"
+              cursor="pointer"
+            />
+          </Tooltip>
         </HStack>
       </Flex>
       <Flex justifyContent="space-between" mt={8}>
