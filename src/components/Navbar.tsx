@@ -17,6 +17,7 @@ import TaskFormModal from "./TaskFormModal";
 import { useStore } from "../store/store";
 import { useUserProfile } from "../services/users/hooks";
 import { NavLink } from "react-router-dom";
+import { ROUTES } from "../constants/routes";
 
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -48,7 +49,7 @@ const Navbar = () => {
         <Spacer />
         <HStack spacing={8}>
           <BellIcon color="neutral.200" boxSize={5} />
-          <Link as={NavLink} to="/profile">
+          <Link as={NavLink} to={ROUTES.profile}>
             <Tooltip
               label={data?.profile?.fullName}
               openDelay={500}
@@ -68,8 +69,8 @@ const Navbar = () => {
       </Flex>
       <Flex justifyContent="space-between" mt={8}>
         <HStack>
-          <IconRouteLink to="/my-tasks" icon={<IconHamburger />} />
-          <IconRouteLink to="/" icon={<IconDashboard />} />
+          <IconRouteLink to={ROUTES.myTasks} icon={<IconHamburger />} />
+          <IconRouteLink to={ROUTES.main} icon={<IconDashboard />} />
         </HStack>
         <TaskFormModal
           triggerElement={
