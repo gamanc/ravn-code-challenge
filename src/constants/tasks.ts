@@ -28,16 +28,24 @@ export const getTaskStatusName = (status: TaskStatus) =>
 // Point Estimate
 
 type PointEstimateNumberObject = {
-  [K in PointEstimate]: number;
+  [K in PointEstimate]: { numeric: number; string: string };
 };
 
 const POINT_ESTIMATE_NUMERIC_VALUE: PointEstimateNumberObject = {
-  [PointEstimate.Zero]: 0,
-  [PointEstimate.One]: 1,
-  [PointEstimate.Two]: 2,
-  [PointEstimate.Four]: 4,
-  [PointEstimate.Eight]: 8,
+  [PointEstimate.Zero]: { numeric: 0, string: "Zero" },
+  [PointEstimate.One]: { numeric: 1, string: "One" },
+  [PointEstimate.Two]: { numeric: 2, string: "Two" },
+  [PointEstimate.Four]: { numeric: 4, string: "Four" },
+  [PointEstimate.Eight]: { numeric: 8, string: "Eight" },
 };
+
+export const POINT_ESTIMATE_ORDER: PointEstimate[] = [
+  PointEstimate.Zero,
+  PointEstimate.One,
+  PointEstimate.Two,
+  PointEstimate.Four,
+  PointEstimate.Eight,
+];
 
 export const getPointEstimateValue = (pointEstimate: PointEstimate) =>
   POINT_ESTIMATE_NUMERIC_VALUE[pointEstimate] ?? pointEstimate;
@@ -49,6 +57,8 @@ export const TASK_FORM_DEFAULT_VALUES = {
   pointEstimate: undefined,
   tags: [],
 };
+
+// Tags
 
 export type TaskTagOption = {
   label: string;

@@ -105,9 +105,10 @@ const TaskCard = ({ task }: Props) => {
       </Flex>
       <Flex justifyContent="space-between">
         <Text fontSize="small" fontWeight={600} textTransform="lowercase">
-          {`${getPointEstimateValue(
-            task.pointEstimate || PointEstimate.Zero
-          )} points`}
+          {`${
+            getPointEstimateValue(task.pointEstimate || PointEstimate.Zero)
+              .numeric
+          } points`}
         </Text>
         <Chip
           icon={<TimeIcon boxSize={4} />}

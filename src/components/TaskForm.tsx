@@ -17,7 +17,11 @@ import { Controller, useFormContext } from "react-hook-form";
 import DatePicker from "sassy-datepicker";
 import { PointEstimate, TaskTag } from "../gql/graphql";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { TaskTagOption } from "../constants/tasks";
+import {
+  POINT_ESTIMATE_ORDER,
+  TaskTagOption,
+  getPointEstimateValue,
+} from "../constants/tasks";
 import { useAllUsers } from "../services/users/hooks";
 
 export interface TaskFormData {
@@ -68,9 +72,9 @@ const TaskForm = () => {
             rules={{ required: "Points estimate is required" }}
             render={({ field }) => (
               <Select {...field} placeholder="Estimate">
-                {Object.entries(PointEstimate).map(([key, value]) => (
-                  <option key={value} value={value}>
-                    {key}
+                {POINT_ESTIMATE_ORDER.map((pointEstimate) => (
+                  <option key={pointEstimate} value={pointEstimate}>
+                    {getPointEstimateValue(pointEstimate).string}
                   </option>
                 ))}
               </Select>
